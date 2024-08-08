@@ -1,85 +1,34 @@
-import datetime
+from Resources import *
 
-def date_validation(data_input):
-    try:
-        return datetime.datetime.strptime(data_input, "%d/%m/%Y")
-    except ValueError:
-        return False
-    
-def value_converter():
+def create_register():
     while True:
-        value = input('Digite o valor (Exemplo: 1234.56): ')
-        try:
-            value_converted = float(value)
-            if value_converted == round(value_converted, 2):
-                return value_converted
-            else:
-                print('Número inválido! Insira um número com até duas casas decimais.')
-        except ValueError:
-            print('Valor inválido. Por favor, digite um número.')
-
-
-def Print_Registros(dicionario):
-    print("\nForam feitos os seguintes registros:")
-    for chave, valor in dicionario.items():
-        print(f"\n{chave} no dia {valor}")
-
-def Create_Register():
-    dict_registros = {}
-    data = input('\nO registro é de hoje (S/N)? ')
-    if data.lower() == 's':
-        data = datetime.datetime.now().strftime("%d/%m/%Y")
-        pass
-    elif data.lower() == 'n':
-        data = input('\nEntre com a data do registro (dd/MM/AAAA): ')
-        if date_validation(data):
-            pass
+        print('\nQual tipo de registro deseja criar?')
+        print('='*50)
+        print('1. Receita.')
+        print('2. Despesa.')
+        print('3. Investimento.')
+        print('4. Voltar ao menu principal.')
+        escolha = input('\nDigite um número de 1 a 3, ou 4 para retornar ao menu principal: ')
+        if escolha == '1':
+            return
+        elif escolha == '2':
+            return
+        elif escolha == '3':
+            return
+        elif escolha == '4':
+            break
         else:
-            print('\nAtenção a data inserida é inválida, por favor insira uma data válida.')
-            Create_Register()
-
-    registro = input('\nQual o registro a ser criado? ')
-    try:    
-        if registro.lower() == 'despesa':
-            print('\nRegistro de despesa inserido com sucesso!')
-            pass
-        elif registro.lower() == 'receita':
-            print('\nRegistro de receita inserido com sucesso!')
-            pass
-        elif registro.lower() == 'investimento':
-            print('\nRegistro de investimento inserido com sucesso!')
-            pass
-        else:
-            print('\nRegistro Inválido.')
-            Create_Register()
-    except ValueError:
-        print(f'{ValueError}')
-    
-    continuar = input('\nInserir outro registro (S/N)? ')
-    if continuar.lower() == 's':
-        Create_Register()
-    elif continuar.lower() == 'n':
-        pass
-    else:
-        return
-    
-    dict_registros = {registro.capitalize():data}
-
-    return Print_Registros(dict_registros)
-
-def Read_Register():
+            print('\nPor favor escolha uma opção válida.')
     return
 
-def Update_Register():
+def read_register():
     return
 
-def Delete_Register():
+def update_register():
     return
 
-def Export_Report():
+def delete_register():
     return
 
-def Grouping():
+def export_report():
     return
-
-Create_Register()
