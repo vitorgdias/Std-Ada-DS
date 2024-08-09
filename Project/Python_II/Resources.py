@@ -8,7 +8,7 @@ def date_validation(data_input):
     
 def value_converter():
     while True:
-        value = input('Digite o valor (Exemplo: 1234.56): ')
+        value = input('Digite o valor do registro (Exemplo: 1234.56): ')
         try:
             value_converted = float(value)
             if value_converted == round(value_converted, 2):
