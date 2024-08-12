@@ -2,6 +2,7 @@ from Product import *
 
 def active_system():
     while True:
+        registros = create_register()
         print('\nBem-vindo(a) ao sistema "Nome do Sistema".')
         print('='*50)
         print('1. Criar Registro')
@@ -25,6 +26,7 @@ def active_system():
             print('\n'+'='*45)
             print('Obrigado por utilizar o "Nome do Sistema".')
             print('='*45+'\n')
+            print(registros)
             break
         else:
             print('\nOpção inválida, por favor insira uma opção válida.')
