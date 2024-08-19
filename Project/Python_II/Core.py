@@ -1,6 +1,8 @@
 import datetime
 import csv
 
+
+
 def confere_data(data):
     try:
         return datetime.datetime.strptime(data, "%d/%m/%Y")
@@ -28,15 +30,16 @@ def menu():
     [1] Criar cadastro
     [2] Atualizar registros
     [3] Consultar registros
-    [4] Exportar registros
+    [4] Ver investimentos
     [5] Sair
     =======================================
     O que você deseja? '''
-    menu = ['1', '2', '3', '4']
+    menus = ['1', '2', '3', '4', '5']
     escolha = input(escolha)
     if escolha == '5':
+      exporta_registros()
       break
-    elif escolha not in menu:
+    elif escolha not in menus:
       print('\nPor favor escolha uma opção válida.')
       return menu()
 
@@ -47,7 +50,8 @@ def menu():
     elif escolha == '3':
       ler_registros()
     elif escolha == '4':
-      exporta_registros()
+      atualizar_investimentos()
+
 
 def criar_cadastro():
 
@@ -61,11 +65,11 @@ def criar_cadastro():
     [4] Sair
     ==============================================
     O que você deseja? '''
-    menu = ['1', '2', '3', '4']
+    menus = ['1', '2', '3']
     escolha = input(escolha)
     if escolha == '4':
       break
-    elif escolha not in menu:
+    elif escolha not in menus:
       print('\nPor favor escolha uma opção válida.')
       return criar_cadastro()
     data = input('\nPrimeiro insira a data (digite no formato dd/mm/aaaa): ')
@@ -115,11 +119,11 @@ def ler_registros():
     [4] Sair
     =======================================
     O que você deseja? '''
-    menu = ['1', '2', '3', '4']
+    menus = ['1', '2', '3']
     escolha = input(escolha)
     if escolha == '4':
       break
-    elif escolha not in menu:
+    elif escolha not in menus:
       print('\nPor favor escolha uma opção válida.')
       return ler_registros()
     if escolha == '1':
@@ -162,11 +166,11 @@ def atualizar_registros():
     [3] Sair
     ==========================================================
     O que você deseja? '''
-    menu = ['1', '2', '3', '4']
+    menus = ['1', '2']
     escolha = input(escolha)
     if escolha == '3':
       break
-    elif escolha not in menu:
+    elif escolha not in menus:
       print('\nPor favor escolha uma opção válida.')
       return atualizar_registros()
 
@@ -192,7 +196,37 @@ def modificar_registros():
       break
 
   if registro_encontrado:
-    pass
+    while True:
+      escolha ='''
+      ============== MODIFICANDO REGISTRO ==============
+      [1] Modificar valor
+      [2] Modificar tipo
+      [4] Sair
+      ==================================================
+      O que você deseja? '''
+      menus = ['1', '2']
+      escolha = input(escolha)
+      if escolha == '3':
+        break
+      elif escolha not in menus:
+        print('\nPor favor escolha uma opção válida.')
+        return menu()
+
+      if escolha == '1':
+        novo_valor = float(input("Digite o novo valor: "))
+        registro_encontrado['valor'] = novo_valor
+        print(f"Registro com ID {id_para_modificar} modificado com sucesso! \n{registro_encontrado}")
+      elif escolha == '2':
+        menus = ['Receita', 'receita', 'Despesa', 'despesa', 'Investimento', 'investimento']
+
+        novo_tipo = input("Digite o novo tipo: ")
+        if novo_tipo not in menus:
+          print('\nPor favor escolha uma opção válida.')
+          novo_tipo = input("Digite o novo tipo: ")
+        elif 'Investimento' or 'investimento':
+          registro_encontrado['tipo'] = novo_tipo
+          print(f"Registro com ID {id_para_modificar} modificado com sucesso! \n{registro_encontrado}")
+
     print(f"Registro com ID {id_para_modificar} modificado com sucesso!")
   else:
     print(f"Nenhum registro encontrado com o ID {id_para_modificar}.")
@@ -221,8 +255,52 @@ def deletar_registro():
     print(f"Nenhum registro encontrado com o ID {id_para_remover}.")
 
 
+def calcular_juros_compostos(valor_inicial, taxa_juros, dias):
+    anos = dias / 365
+    montante = valor_inicial * (1 + taxa_juros) ** anos
+    return round(montante, 2)
+
 def atualizar_investimentos():
-  pass
+    investimentos = [reg for reg in registros if reg['tipo'] == 'Investimento']
+
+    if not investimentos:
+        print("Não há registros de investimentos para atualizar.")
+        return
+
+    print("\nInvestimentos disponíveis:\n")
+    print(investimentos)
+
+    try:
+        id_para_modificar = int(input("Digite o ID do investimento que deseja consultar: "))
+    except ValueError:
+        print("Por favor, digite um número válido.")
+        return atualizar_investimentos()
+
+    registro_encontrado = None
+    for registro in registros:
+        if registro['ID'] == id_para_modificar and registro['tipo'] == 'Investimento':
+            registro_encontrado = registro
+            break
+
+    if registro_encontrado:
+        print(f"\nRegistro encontrado: {registro_encontrado}")
+
+        data_registro = datetime.datetime.strptime(registro_encontrado['data'], "%d/%m/%Y")
+        data_atual = datetime.datetime.now()
+        dias = (data_atual - data_registro).days
+
+        montante_atual = calcular_juros_compostos(registro_encontrado['valor'], registro_encontrado['juros'], dias)
+
+        print(f"Valor atual do investimento: {montante_atual}")
+
+        registro_encontrado['valor'] = montante_atual
+        registro_encontrado['data'] = data_atual.strftime("%d/%m/%Y")
+
+        print(f"\nRegistro de investimento com ID {id_para_modificar} atualizado com sucesso!")
+        print(f"Novo valor: {registro_encontrado['valor']}\nNova data: {registro_encontrado['data']}")
+    else:
+        print(f"Nenhum registro de investimento encontrado com o ID {id_para_modificar}.")
+
 
 
 def filtro(chave, valor):
@@ -242,4 +320,24 @@ def exporta_registros():
     print("\nRegistros exportados com sucesso para 'registros_ativos.csv'.")
 
 
+def carregar_registros():
+    global id_registro
+    caminho_arquivo = '/content/registros_ativos.csv'
+    if path.exists(caminho_arquivo):
+      with open(caminho_arquivo, mode='r') as file:
+        reader = csv.DictReader(file)
+        for row in reader:
+          row['ID'] = int(row['ID'])
+          row['valor'] = float(row['valor'])
+          if row['juros']:
+            row['juros'] = float(row['juros'])
+          else:
+            row['juros'] = None
+          id_registro = row['ID'] + 1
+          registros.append(row)
+        print("Registros carregados com sucesso!")
+    else:
+        print("Nenhum arquivo de registros encontrado. Um novo arquivo será criado ao colocar dados.")
+
+carregar_registros()
 menu()
