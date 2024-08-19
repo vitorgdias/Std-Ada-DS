@@ -1,6 +1,6 @@
 import datetime
 import csv
-
+import os
 
 
 def confere_data(data):
@@ -323,7 +323,7 @@ def exporta_registros():
 def carregar_registros():
     global id_registro
     caminho_arquivo = '/content/registros_ativos.csv'
-    if path.exists(caminho_arquivo):
+    if os.path.exists(caminho_arquivo):
       with open(caminho_arquivo, mode='r') as file:
         reader = csv.DictReader(file)
         for row in reader:
