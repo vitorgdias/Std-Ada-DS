@@ -2,6 +2,7 @@ import datetime
 import csv
 import os
 import logging
+from tabulate import tabulate
 
 # Configuração do logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -53,6 +54,7 @@ def carregar_registros():
                 registros.append(row)
                 id_registro = row['ID'] + 1  # Atualiza o ID para o próximo registro
         print("Registros carregados com sucesso!")
+        print(tabulate(registros, headers="keys", tablefmt="pretty"))
     else:
         print("Nenhum arquivo de registros encontrado. Um novo arquivo será criado ao salvar.")
 
@@ -128,7 +130,7 @@ def criar_cadastro():
 
         registros.append({'ID': id_registro, 'tipo': tipo, 'data': data, 'valor': valor, 'juros': juros})
         print('\nRegistro criado com sucesso!\n')
-        print(registros)
+        print(tabulate(registros, headers="keys", tablefmt="pretty"))
         id_registro += 1
 
 # Função para ler registros
@@ -172,7 +174,8 @@ def ler_registros():
             estatisticas()
 
         if escolha in ['1', '2', '3'] and registros_filtrados:
-            logging.info(f"Registros encontrados: {registros_filtrados}")
+            # Exibindo os registros filtrados usando tabulate
+            print(tabulate(registros_filtrados, headers="keys", tablefmt="pretty"))
         elif escolha in ['1', '2', '3']:
             logging.info("Nenhum registro encontrado.")
 
@@ -198,7 +201,7 @@ def atualizar_registros():
 
 # Função para modificar registros
 def modificar_registros():
-    logging.info(registros)
+    print(tabulate(registros, headers="keys", tablefmt="pretty"))
     try:
         id_para_modificar = int(input("Digite o ID do registro que deseja modificar: "))
     except ValueError:
@@ -241,7 +244,7 @@ def modificar_registros():
 
 # Função para deletar registros
 def deletar_registro():
-    logging.info(registros)
+    print(tabulate(registros, headers="keys", tablefmt="pretty"))
     try:
         id_para_remover = int(input("Digite o ID do registro que deseja remover: "))
     except ValueError:
@@ -272,7 +275,7 @@ def atualizar_investimentos():
         return
 
     logging.info("Investimentos disponíveis:")
-    logging.info(investimentos)
+    print(tabulate(investimentos, headers="keys", tablefmt="pretty"))
 
     try:
         id_para_modificar = int(input("Digite o ID do investimento que deseja consultar: "))
@@ -288,11 +291,12 @@ def atualizar_investimentos():
         dias = (data_atual - data_registro).days
 
         montante_atual = calcular_juros_compostos(registro_encontrado['valor'], registro_encontrado['juros'], dias)
-        logging.info(f"O montante atual do investimento é: R${montante_atual}")
 
         registro_encontrado['valor'] = montante_atual
         registro_encontrado['data'] = data_atual.strftime("%d/%m/%Y")
-        logging.info(f"Registro de investimento atualizado: {registro_encontrado}")
+        logging.info(f"Registro de investimento atualizado.")
+        print()
+        print(tabulate(registros, headers="keys", tablefmt="pretty"))
     else:
         logging.warning(f"Nenhum registro de investimento encontrado com o ID {id_para_modificar}.")
 
