@@ -132,6 +132,7 @@ def criar_cadastro():
         id_registro += 1
 
 # Função para ler registros
+# Função para ler registros
 def ler_registros():
     while True:
         mensagem_consulta = '''
@@ -139,13 +140,14 @@ def ler_registros():
         [1] Consultar por data
         [2] Consultar por operação
         [3] Consultar por valor
-        [4] Sair
+        [4] Ver estatísticas
+        [5] Sair
         =======================================
         O que você deseja? '''
-        
-        escolha = exibir_menu(['1', '2', '3', '4'], mensagem_consulta)
-        
-        if escolha == '4':
+
+        escolha = exibir_menu(['1', '2', '3', '4', '5'], mensagem_consulta)
+
+        if escolha == '5':
             break
 
         if escolha == '1':
@@ -166,10 +168,12 @@ def ler_registros():
                 continue
             chave = 'valor'
             registros_filtrados = filtro(chave, valor_convertido)
+        elif escolha == '4':
+            estatisticas()
 
-        if registros_filtrados:
+        if escolha in ['1', '2', '3'] and registros_filtrados:
             logging.info(f"Registros encontrados: {registros_filtrados}")
-        else:
+        elif escolha in ['1', '2', '3']:
             logging.info("Nenhum registro encontrado.")
 
 # Função para atualizar registros
@@ -318,6 +322,25 @@ def exporta_registros():
 # Função para filtrar registros com base em uma chave e valor
 def filtro(chave, valor):
     return [registro for registro in registros if registro[chave] == valor]
+
+# Função para calcular estatísticas
+def estatisticas():
+    tipos = ['Receita', 'Despesa', 'Investimento']
+    for tipo in tipos:
+        registros_tipo = [reg['valor'] for reg in registros if reg['tipo'] == tipo]
+        if registros_tipo:
+            valor_max = max(registros_tipo)
+            valor_min = min(registros_tipo)
+            media = sum(registros_tipo) / len(registros_tipo)
+            quantidade = len(registros_tipo)
+            print(f"\nEstatísticas para {tipo}:")
+            print(f"Valor máximo de {tipo}(s): {valor_max}")
+            print(f"Valor mínimo de {tipo}(s): {valor_min}")
+            print(f"Média de {tipo}(s): {round(media, 2)}")
+            print(f"Quantidade de {tipo}(s): {quantidade}")
+            print('='*50)
+        else:
+            print(f"\nNenhum registro encontrado para {tipo}.")
 
 # Execução do programa
 carregar_registros()
