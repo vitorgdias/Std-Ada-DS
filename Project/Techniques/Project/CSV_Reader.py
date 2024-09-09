@@ -1,6 +1,6 @@
 import csv
 
-file_path = 'Project\Techniques\Project\SPI_index_labelled.csv'
+file_path = 'Project\Techniques\Project\mercadoimobiliario.csv'
 
 with open(file_path, mode='r') as file:
     reader = csv.reader(file)
