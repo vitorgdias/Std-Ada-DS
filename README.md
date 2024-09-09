@@ -5,6 +5,7 @@
 Index for each project in this reporsitory:
 
   * [Programming Logic II (Python)](#programming-logic-ii-python)
+  * [Programming Techniques (Python)](#programming-techniques-python)
   * [Databases](#databases)
   * [Statistic](#statistic)
   * [Machine Learning I](#machine-learning-i)
