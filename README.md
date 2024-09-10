@@ -41,6 +41,7 @@ The system can handle errors and treat them, showing informative messages to the
 ## Programming Techniques (Python)
 :hammer_and_wrench: Under Construction
 * Tools, Frameworks and libraries used in this project:
+  
   [![My Skills](https://skillicons.dev/icons?i=py)](https://skillicons.dev)
   ![Jupyter Notebook](https://img.shields.io/badge/jupyter-%23FA0F00.svg?style=for-the-badge&logo=jupyter&logoColor=white)
   ![NumPy](https://img.shields.io/badge/numpy-%23013243.svg?style=for-the-badge&logo=numpy&logoColor=white)
