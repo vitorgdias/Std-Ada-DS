@@ -39,7 +39,7 @@ The system can handle errors and treat them, showing informative messages to the
 
 
 ## Programming Techniques (Python)
-:hammer_and_wrench: Under Construction
+
 * Tools, Frameworks and libraries used in this project:
   
   [![My Skills](https://skillicons.dev/icons?i=py)](https://skillicons.dev)
