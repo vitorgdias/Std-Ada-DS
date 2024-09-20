@@ -213,7 +213,7 @@ Figura 10: Relacionamento 1:1, uma entidade opcional ou obrigatória
 
 &nbsp;
 
-#### Quando a entidade com cardinalidade máxima 1 possui cardinalidade mínima 0 ou 1
+#### Quando a entidade com cardinalidade máxima n possui cardinalidade mínima 0 ou 1
 
 <img src=https://s3.amazonaws.com/ada.8c8d357b5e872bbacd45197626bd5759/banco-dados-postgres/aula-4/conteudo/07_1_n_min_0_max_1.jpg width=300>
 
@@ -250,7 +250,7 @@ Figura 11: Relacionamento 1:N, a entidade com cardinalidade máxima 1 possui car
   
     Vantagens:
 
-        - Colunas obrigatórias e opcionais. Na adição de colunas, em caso de venda a vista os campos CodFin, NoParc e TxJuros ficariam vazios, e preenchidos na venda a prazo.
+        - Colunas obrigatórias e opcionais. Na adição de colunas, em caso de venda a vista os campos cod_fin, no_parc e tx_juros ficariam vazios, e preenchidos na venda a prazo.
 
 
 ### Relacionamentos N:N

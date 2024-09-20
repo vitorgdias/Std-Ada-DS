@@ -1,0 +1,29 @@
+https://dbdiagram.io/
+
+// Use DBML to define your database structure
+// Docs: https://dbml.dbdiagram.io/docs
+
+Table anotacoes {
+  id uuid [primary key]
+  titulo varchar(100)
+  texto varchar(1000)
+  dt_criacao timestamp
+  dt_alteracao timestamp
+  login_usuario varchar(100) [ref: > usuarios.login ]
+}
+
+Table rotulos {
+  id uuid [primary key]
+  nome varchar(100)
+  cor varchar(35)
+}
+
+Table anotacoes_rotulos {
+  id_anotacao uuid [ref: <> anotacoes.id ] // many-to-one
+  id_rotulo uuid [ref: <> rotulos.id ]
+}
+
+Table usuarios {
+  login varchar(100) [primary key]
+  senha varchar(100)
+}
