@@ -73,8 +73,6 @@ CRUD é a sigla em inglês para Create, Read, Update, Delete.
 
 São as principais ações que fazemos no banco de dados SQL quando não somos os administradores do banco.
 
-Ou seja, na nossa carreira de DEV.
-
 &nbsp;
 
 ## C - Create
@@ -91,19 +89,32 @@ CREATE TABLE <qualificador> <schema>.<nome_da_tabela>
     <restrições>
 );
 
--- OBS: O <schema> é opcional. O default     é public, mas pode ser alterado nas configurações do banco de dados.
+-- OBS: O <schema> é opcional. O default é public, mas pode ser alterado nas configurações do banco de dados.
 ```
 
 &nbsp;
 
 #### Exemplo:
-Dado nosso modelo lógico da empresa acme, para a entidade **funcionarios**, vamos escrever o comando para criar a tabela.
 
-    funcionarios (numero_matricula, cpf, nome, endereco, salario, genero, dt_nasc, numero_matricula_supervisor, num_dpto)
-        numero_matricula PK
-        cpf UNIQUE
-        num_dpto FK referencia departamentos
-        numero_matricula_supervisor FK referencia funcionarios
+Dado o modelo conceitual abaixo,
+
+<img src=https://s3.amazonaws.com/ada.8c8d357b5e872bbacd45197626bd5759/banco-dados-postgres/aula-2/conteudo/empresa_acme_diagrama_completo.png width=400>
+
+e convertido para o modelo lógico da entidade **funcionarios**, conforme o exemplo abaixo
+
+    TABLE funcionarios {
+        numero_matricula int [primary key]
+        cpf varchar(11) [unique]
+        salario float
+        nome varchar(50)
+        genero int
+        dt_nasc date
+        endereco varchar(100)
+        numero_matricula_supervisor varchar(11) [ref: - funcionarios.cpf]
+        num_dpto int [ref: > departamentos.num]
+    }
+
+vamos escrever o comando para criar a tabela.
 
 &nbsp;
 
@@ -129,10 +140,12 @@ CREATE TABLE IF NOT EXISTS public.funcionarios
 
 Reparem que não criamos o atributo **num_dpto**, uma vez que para incluir ele precisamos primeiro criar a tabela **departamentos**.
 
-    departamentos (num_dpto, nome_dpto, cod_gerente, data_inicio_gerente)
-        num_dpto PK
-        nome_dpto UNIQUE
-        cod_gerente FK funcionarios
+    TABLE departamentos {
+        num int [primary key]
+        nome varchar(50) [unique]
+        numero_matricula_gerente int
+        dt_ini_gerente date
+    }
 
 Como o departamento pede o atributo cod_gerente, da tabela de **funcionarios**, vamos deixar o campo cod_gerente como opcional.
 

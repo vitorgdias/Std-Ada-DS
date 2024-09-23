@@ -1,0 +1,51 @@
+https://dbdiagram.io/
+
+
+TABLE funcionarios {
+  numero_matricula int [primary key]
+  cpf varchar(11) [unique]
+  salario float
+  nome varchar(50)
+  genero int
+  dt_nasc date
+  endereco varchar(100)
+  numero_matricula_supervisor varchar(11) [ref: - funcionarios.cpf]
+  num_dpto int [ref: > departamentos.num]
+}
+
+TABLE departamentos {
+  num int [primary key]
+  nome varchar(50) [unique]
+  numero_matricula_gerente int
+  dt_ini_gerente date
+}
+
+TABLE projetos {
+  num int [primary key]
+  nome varchar(50) [unique]
+  local varchar(50) [unique]
+  num_dpto int [ref: > departamentos.num]
+}
+
+TABLE dependentes {
+  cpf varchar(11) [primary key]
+  nome varchar(50)
+  genero int
+  dt_nasc date
+  grau_parentesco_func int
+  numero_matricula_func int [ref: > funcionarios.numero_matricula] // zero to many
+}
+
+TABLE funcionarios_projetos {
+  numero_matricula_func int [primary key, ref: <> funcionarios.numero_matricula]
+  num_projeto int [primary key, ref: <> projetos.num]
+  horas_trabalhadas int
+  mes int [primary key]
+  ano int [primary key]
+}
+
+TABLE localizacoes_departamentos {
+  id int [primary key]
+  num_dpto int [ref: < departamentos.num]
+  endereco varchar(100)
+}
